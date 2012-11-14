@@ -2,7 +2,7 @@ package DBIx::Class::Bootstrap::Simple;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 NAME
 
@@ -204,7 +204,7 @@ sub init
     $CONFIG{$class}{OBJECTS} ||= {};
 
     my $i = 0;
-    if (my $type_map = __PACKAGE__->object_type_map)
+    if (my $type_map = $class->object_type_map)
     {
         for my $column (@columns) {
             my $definition = $CONFIG{$class}{DEFINITION}[$i];
@@ -231,8 +231,8 @@ sub init
         }
     }
 
-    $class->resultset_class(__PACKAGE__->override_resultset_class)
-        if __PACKAGE__->override_resultset_class;
+    $class->resultset_class($class->override_resultset_class)
+        if $class->override_resultset_class;
 
     __PACKAGE__->source_registrations->{$class} =
         $class->result_source_instance;
