@@ -2,7 +2,7 @@ package DBIx::Class::Bootstrap::Simple;
 use strict;
 use warnings;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 NAME
 
@@ -197,6 +197,7 @@ sub init
         my $remote_col = $reference->{foreign_column} || $reference->{column};
         {
             no strict 'refs';
+            no warnings 'redefine';
             *{"$class\:\:$rkey"} = sub { shift->$local_col(@_) };
         }
     }
